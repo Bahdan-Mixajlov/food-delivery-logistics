@@ -646,6 +646,13 @@ SET `street` = 'ул. Тестовая',
     `apartment` = LPAD(`id_address`, 3, '0'),
     `entrance` = '1';
 
+-- Разводим демонстрационные адреса по координатам, чтобы маршруты
+-- не получали нулевые расстояния из-за одинаковых lat/lon.
+UPDATE `address`
+SET `lat` = ROUND(`lat` + ((`id_address` % 7) - 3) * 0.0009, 6),
+    `lon` = ROUND(`lon` + ((FLOOR(`id_address` / 7) % 7) - 3) * 0.0011, 6)
+WHERE `lat` IS NOT NULL AND `lon` IS NOT NULL;
+
 UPDATE `payment_method`
 SET `name` = 'Тестовая карта',
     `last4` = '0000';
