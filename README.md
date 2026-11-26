@@ -202,6 +202,8 @@ cp .env.example .env
 npm start
 ```
 
+`npm start` запускает Expo. Как открыть приложение на телефоне через Expo Go — см. раздел 6.
+
 Для веб-версии:
 
 ```bash
@@ -223,11 +225,83 @@ cp .env.example .env
 npm start
 ```
 
+`npm start` запускает Expo. Как открыть приложение на телефоне через Expo Go — см. раздел 6.
+
 Для веб-версии:
 
 ```bash
 npm run web
 ```
+
+### 6. Запуск мобильных приложений через Expo Go
+
+Expo Go позволяет открыть React Native-приложение на телефоне без сборки APK/IPA.
+
+1. Установите Expo Go:
+   - Android — из Google Play;
+   - iOS — из App Store.
+2. Подключите телефон и компьютер к одной Wi-Fi-сети.
+3. Узнайте IPv4-адрес компьютера:
+
+   ```powershell
+   ipconfig
+   ```
+
+   Нужен адрес вида `192.168.x.x`.
+4. Укажите этот адрес в `mobile-client/.env` и `mobile-courier/.env`:
+
+   ```env
+   EXPO_PUBLIC_API_URL=http://192.168.x.x:3000/api
+   ```
+
+   Для телефона нельзя использовать `localhost` или `127.0.0.1`: это будет сам телефон, а не компьютер.
+
+5. Запустите backend:
+
+   ```bash
+   cd backend
+   npm run dev
+   ```
+
+   Проверьте с телефона, что адрес `http://192.168.x.x:3000/api` доступен. Если нет — разрешите Node.js в брандмауэре Windows для частной сети.
+
+6. Запустите приложение клиента:
+
+   ```bash
+   cd mobile-client
+   npm start
+   ```
+
+   И отдельно приложение курьера:
+
+   ```bash
+   cd mobile-courier
+   npm start
+   ```
+
+   В терминале появится QR-код.
+
+7. Android: откройте Expo Go и выберите сканирование QR-кода.
+
+   iOS: наведите камеру на QR-код и выберите открытие в Expo Go.
+
+8. Если телефон не подключается:
+   - проверьте, что телефон и компьютер в одной сети;
+   - разрешите Node.js в брандмауэре;
+   - попробуйте `npx expo start --tunnel` — это медленнее, но работает через разные сети.
+
+9. Для эмуляторов:
+   - Android: `npm run android` или `npm start`, затем клавиша `a`;
+   - iOS: `npm run ios` или `npm start`, затем клавиша `i`.
+
+   Для Android-эмулятора API обычно доступен по `http://10.0.2.2:3000/api`, для iOS-симулятора — по `http://localhost:3000/api`.
+
+10. Если Expo Go не поддерживает версию SDK проекта, соберите development build:
+
+    ```bash
+    npx expo run:android
+    npx expo run:ios
+    ```
 
 ## Переменные окружения
 
