@@ -364,26 +364,24 @@ npm run build
 
 Основные связи между сущностями:
 
-```mermaid
-erDiagram
-    CLIENT ||--o{ ADDRESS : имеет
-    CLIENT ||--o{ ORDERS : оформляет
-    CLIENT ||--o{ SUBSCRIPTION : оформляет
-    ORDERS ||--|{ ORDER_ITEM : содержит
-    DISH ||--o{ ORDER_ITEM : входит
-    CATEGORY ||--o{ DISH : содержит
-    DISH ||--o{ DISH_COMPOSITION : содержит
-    INGREDIENT ||--o{ DISH_COMPOSITION : входит
-    NUTRITION_PLAN ||--o{ PLAN_COMPOSITION : содержит
-    DISH ||--o{ PLAN_COMPOSITION : входит
-    NUTRITION_PLAN ||--o{ SUBSCRIPTION : включает
-    ORDERS ||--o| ASSIGNMENTS : назначение
-    COURIER ||--o{ ASSIGNMENTS : получает
-    COURIER ||--o{ ROUTES : строит
-    ROUTES ||--|{ ROUTE_POINTS : содержит
-    ORDERS ||--o{ ROUTE_POINTS : точка
-    ADDRESS ||--o{ ORDERS : адрес
-```
+| Сущность | Основные связи |
+|---|---|
+| `client` | адреса, заказы, подписки, способы оплаты, история питания |
+| `address` | клиент, заказы |
+| `orders` | клиент, адрес, курьер, позиции заказа, назначения, точки маршрута |
+| `order_item` | заказ, блюдо |
+| `dish` | категория, состав блюда, позиции заказа, планы питания |
+| `ingredient` | состав блюда |
+| `dish_composition` | блюдо, ингредиент |
+| `nutrition_plan` | состав плана, подписки |
+| `plan_composition` | план питания, блюдо |
+| `subscription` | клиент, план питания |
+| `courier` | назначения, маршруты |
+| `assignments` | заказ, курьер |
+| `routes` | курьер, точки маршрута |
+| `route_points` | маршрут, заказ |
+| `payment_method` | клиент |
+| `meal_log` | клиент, блюдо |
 
 Полная схема с типами полей, внешними ключами и индексами находится в `backend/sql/schema.sql`.
 
